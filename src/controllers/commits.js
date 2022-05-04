@@ -11,20 +11,21 @@ const dayjs = require('dayjs');
 const getCommits = async (req, res) => {
     const { page, date } = req.params;
     const commitsJson = await getCommitsFromGithub(page, date);
-    if(commitsJson.length > 0) {        
-        const commits = commitsJson.map(c => ({
-            sha: c.sha,
-            message: c.commit.message,
-            date: dayjs(c.commit.author.date).format("YYYY-MM-DD hh:mm:ss"),
-            author: c.commit.author.name,
-        }));
-        
-        // const orderedCommits = await orderJson(commits);
-        res.status(200).json(commits);
-    } else{
-        res.status(404).json({
-            message: 'No commits found for this date',
-        });
+    console.log(commitsJson)
+    try {
+        if(commitsJson.length > 0) {        
+            const commits = commitsJson.map(c => ({
+                sha: c.sha,
+                message: c.commit.message,
+                date: dayjs(c.commit.author.date).format("YYYY-MM-DD hh:mm:ss"),
+                author: c.commit.author.name,
+            }));
+            
+            // const orderedCommits = await orderJson(commits);
+            res.status(200).json(commits);
+        }
+    } catch (error) {
+        console.log(error)
     }
 
 }
@@ -32,7 +33,14 @@ const getCommits = async (req, res) => {
 /* *|CURSOR_MARCADOR|* */
 async function getCommitsFromGithub(page, date) {
     const url = `https://api.github.com/repos/fredalbert37/node-github-app/commits?page=${page}&since=${date}`;    
-    return fetch(url)
+    return fetch(url,
+        {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': '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'
+            } 
+        })
         .then(response => response.json())
         .then(data => data);
 }

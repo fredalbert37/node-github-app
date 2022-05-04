@@ -8,7 +8,7 @@ app.use(cors());
 app.use(express.json());
 
 app.use('/api/v1/', require('./router'));
-
+app.use(express.static(__dirname + "/public"))
 
 app.listen(process.env.PORT | 3000, () => {
     console.log('Server is running on port ' + (process.env.PORT | 3000));
