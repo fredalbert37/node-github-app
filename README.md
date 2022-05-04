@@ -1,12 +1,12 @@
 To install the package, run:
 
-<p>-<strong> npm install</strong> </p>
+<pre>-<strong> npm install</strong> </pre>
 
 To use the package, run:
-<p>-<strong> npm start </strong> </p>
+<pre>-<strong> npm start </strong> </pre>
 <p>this is a test</p>
 <p>
-This project use nodejs and npm to create a package. <br>
-Nodejs version: v14.17.6 <br>
-Npm version: 7.24.1 <br>
+This project use nodejs and npm to create a package. 
 </p>
+<p> Nodejs version: <strong>  v14.17.6 </strong> </p>
+<p> <strong>Npm version: <strong> v7.24.1 </strong> </p>
