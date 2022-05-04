@@ -1,9 +1,9 @@
 To install the package, run:
 
-<pre>-<strong> npm install</strong> </pre>
+<pre><strong>npm install</strong> </pre>
 
 To use the package, run:
-<pre>-<strong> npm start </strong> </pre>
+<pre><strong>npm start </strong> </pre>
 <p>this is a test</p>
 <p>
 This project use nodejs and npm to create a package. 
