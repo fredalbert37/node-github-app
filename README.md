@@ -1,3 +1,5 @@
+<p> Firstable, to run this application you must have install in your computer Nodejs in the version above and npm in the version above or higher </p>
+
 To install the package, run:
 
 <pre><strong>npm install</strong> </pre>
