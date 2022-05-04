@@ -1,7 +1,5 @@
 const fetch = require('node-fetch');
-
-
-
+const dayjs = require('dayjs');
 /**
  * It takes a page number and a date from the request parameters, then it calls the
  * getCommitsFromGithub function with those parameters, and then it sends the response back to the
@@ -13,22 +11,27 @@ const fetch = require('node-fetch');
 const getCommits = async (req, res) => {
     const { page, date } = req.params;
     const commitsJson = await getCommitsFromGithub(page, date);
-    
-    const commits = commitsJson.map(commit => {
-        return {
-            sha: commit.sha,
-            message: commit.commit.message,
-            date: commit.commit.author.date,
-            author: commit.commit.author.name,
-        }
-    });
+    if(commitsJson.length > 0) {        
+        const commits = commitsJson.map(c => ({
+            sha: c.sha,
+            message: c.commit.message,
+            date: dayjs(c.commit.author.date, "MM-DD-YYYY"),
+            author: c.commit.author.name,
+        }));
+        
+        // const orderedCommits = await orderJson(commits);
+        res.status(200).json(commits);
+    } else{
+        res.status(404).json({
+            message: 'No commits found for this date',
+        });
+    }
 
-    res.status(200).json(commits);
 }
 
 /* *|CURSOR_MARCADOR|* */
 async function getCommitsFromGithub(page, date) {
-    const url = `https://api.github.com/repos/${process.env.USERNAME}/${process.env.REPO}/commits?page=${page}&since=${date}`;    
+    const url = `https://api.github.com/repos/fredalbert37/node-github-app/commits?page=${page}&since=${date}`;    
     return fetch(url)
         .then(response => response.json())
         .then(data => data);
