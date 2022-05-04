@@ -12,13 +12,23 @@ const fetch = require('node-fetch');
 
 const getCommits = async (req, res) => {
     const { page, date } = req.params;
-    const commits = await getCommitsFromGithub(page, date);
-    res.json(commits);
+    const commitsJson = await getCommitsFromGithub(page, date);
+    
+    const commits = commitsJson.map(commit => {
+        return {
+            sha: commit.sha,
+            message: commit.commit.message,
+            date: commit.commit.author.date,
+            author: commit.commit.author.name,
+        }
+    });
+
+    res.status(200).json(commits);
 }
 
 /* *|CURSOR_MARCADOR|* */
 async function getCommitsFromGithub(page, date) {
-    const url = `https://api.github.com/repos/facebook/react/commits?page=${page}&since=${date}`;
+    const url = `https://api.github.com/repos/${process.env.USERNAME}/${process.env.REPO}/commits?page=${page}&since=${date}`;    
     return fetch(url)
         .then(response => response.json())
         .then(data => data);
