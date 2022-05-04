@@ -15,7 +15,7 @@ const getCommits = async (req, res) => {
         const commits = commitsJson.map(c => ({
             sha: c.sha,
             message: c.commit.message,
-            date: dayjs(c.commit.author.date, "MM-DD-YYYY"),
+            date: dayjs(c.commit.author.date).format("YYYY-MM-DD hh:mm:ss"),
             author: c.commit.author.name,
         }));
         
